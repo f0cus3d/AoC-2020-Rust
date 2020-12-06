@@ -14,19 +14,25 @@ fn main() {
             }           
         }
     }
+    
+    let mut rng = thread_rng();
 
-    for n in 0..expense_report.len(){
-        let mut x = 0;
-        while x < expense_report.len() {
-            let sum = expense_report[n] + expense_report[x];
+    loop {
+        let v1 = expense_report.choose(&mut rng).unwrap();
+        let v2 = expense_report.choose(&mut rng).unwrap();
+        let v3 = expense_report.choose(&mut rng).unwrap();
 
-            if sum == 2020 {
-                println!("{:?} + {:?} = {:?}", &expense_report[n], &expense_report[x], &sum);
-                println!("ANSWER!: {:?}", expense_report[n] * expense_report[x]);
-            }
-            x += 1
+        let sum = v1 + v2 + v3;
+
+        if sum == 2020 {
+            println!("{:?} + {:?} + {:?} = {:?}",v1,v2,v3,sum);
+            println!("Answer: {:?}", v1*v2*v3);
+            break
+        } else {
+            continue
         }
     }
+
 }
 
 fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
