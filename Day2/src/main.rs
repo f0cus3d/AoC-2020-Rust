@@ -8,12 +8,14 @@ struct PassData{
     complex_max: u8,
     complex_min: u8,
     complex_char: String,
+    pass: String,
 }
 
 fn main() {
 
     let mut compliance_count = 0;
     let mut pass_map = HashMap::new();
+    let mut uid: u64 = 0;
 
     if let Ok(lines) = read_lines("./input") {
         for line in lines {
@@ -43,10 +45,13 @@ fn main() {
                 complex_max: complexity_min_max.pop().unwrap(),
                 complex_min: complexity_min_max.pop().unwrap(),
                 complex_char: complexity_char.pop().unwrap(),
+                pass: password.pop().unwrap(),
 
             };
 
-            pass_map.insert(password.pop().unwrap(), password_data);
+            pass_map.insert(uid, password_data);
+
+            uid += 1;
 
 
             }
@@ -54,8 +59,8 @@ fn main() {
     }
 
 
-    for (secret, complex_data) in &pass_map {
-        let pass_count = &secret.matches(&complex_data.complex_char)
+    for (_, complex_data) in &pass_map {
+        let pass_count = &complex_data.pass.matches(&complex_data.complex_char)
                         .count()
                         .to_string()
                         .parse::<u8>()
@@ -68,8 +73,6 @@ fn main() {
         }
 
     }
-//Still gets the wrong number, data might be the same?
-
 
     println!("Passowrds Compliant: {:?}", compliance_count);
 
