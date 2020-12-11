@@ -15,7 +15,8 @@ struct PassData{
 fn main() {
 
     // Count all the things and make that collection
-    let mut compliance_count = 0;
+    let mut p1_compliance_count = 0;
+    let mut p2_compliance_count = 0;
     let mut pass_map = HashMap::new();
     let mut uid: u64 = 0;
 
@@ -64,7 +65,7 @@ fn main() {
     }
 
     // Check data based on the problem of part 1.
-    for (_, complex_data) in &pass_map {
+    for (_, complex_data) in &pass_map {  // Long hair don't care about the UID
         let pass_count = &complex_data.pass.matches(&complex_data.complex_char)
                         .count()
                         .to_string()
@@ -74,12 +75,35 @@ fn main() {
         let max =  &complex_data.complex_max;
 
         if !(pass_count < min) && !(pass_count > max){
-            compliance_count += 1
+            p1_compliance_count += 1
         }
 
     }
     // Out something of use to the term.
-    println!("Passowrds Compliant: {:?}", compliance_count);
+    println!("Part 1: Passowrds Compliant: {:?}", p1_compliance_count);
+
+        // Part 2 
+        // Mix and Max are positions that must contain the char therfor we need to find the occurance of the char
+        // WUTANG!!!!!
+        // Can't start with index zero so whatever we get will need to -1 the min or max
+
+        for (_, complex_data) in &pass_map {
+            let raw_pass: Vec<_> = complex_data.pass
+                                    .match_indices(&complex_data.complex_char)
+                                    .collect();
+            let min =  &complex_data.complex_min - 1;
+            let max =  &complex_data.complex_max - 1;
+
+            if raw_pass.len() < max as usize {
+                continue
+            }
+
+            if raw_pass[min as usize].1 == &complex_data.complex_char || raw_pass[max as usize].1 == &complex_data.complex_char {
+                p2_compliance_count += 1
+            }
+        }
+        // Attempt 1 was 467 num was too low.....
+        println!("Part 2: Passowrds Compliant: {:?}", p2_compliance_count);
 
 }
 
