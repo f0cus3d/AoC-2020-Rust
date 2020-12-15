@@ -93,16 +93,28 @@ fn main() {
                                     .collect();
             let min =  &complex_data.complex_min - 1;
             let max =  &complex_data.complex_max - 1;
+            let mut pass_match_count = 0;
 
-            if raw_pass.len() < max as usize {
+            if raw_pass.len() == 0 {
                 continue
             }
 
-            if raw_pass[min as usize].1 == &complex_data.complex_char || raw_pass[max as usize].1 == &complex_data.complex_char {
+            for char_match in raw_pass.iter() {
+                if char_match.0 == min as usize {
+                    pass_match_count +=1
+                } else if char_match.0 == max as usize{
+                    pass_match_count +=1
+                } else {
+                    continue
+                }
+            }
+
+            if pass_match_count == 1 {
                 p2_compliance_count += 1
             }
         }
-        // Attempt 1 was 467 num was too low.....
+
+        // Remember to read the problem.....
         println!("Part 2: Passowrds Compliant: {:?}", p2_compliance_count);
 
 }
